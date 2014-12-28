@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FollowMeHome</string>
+    <string name="geolocationTitle">Home Coordinates:</string>
+    <string name="cellphoneNumer">Cell Phone Number:</string>
+    <string name="homephoneNumber">Home Number:</string>
+    <string name="supplier">Service supplier:</string>
+    
+    <string name="cellPhoneNumberHint">This is the number you want to forward</string>
+    <string name="homePhoneNumberHint">This is the number to route to</string>
+
+    <string name="providerTitle">Service Provider:</string>
+    <string name="geolocationSync">Sync</string>
+    
+    <string-array name="serviceProviderArray">
+        <item name="providerOranges">Orange</item>
+        <item name="provider012">012</item>
+        <item name="providerCellcom">Cellcom</item>
+        <item name="providerPelephone">Pelephone</item>
+        <item name="providerGolanTelecom">Golan Telecom</item>
+    </string-array>
+    <string name="goBtn">Go!</string>
+    <string name="cancelBtn">Cancel</string>
+</resources>

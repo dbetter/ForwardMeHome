@@ -1,0 +1,115 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <!-- Internet provider title and spinner -->
+
+    <Button
+        android:id="@+id/geoLocationBtn"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/geoLocationTitle"
+        android:layout_alignBottom="@+id/geoLocationTitle"
+        android:layout_centerHorizontal="true"
+        android:onClick="setGeolocation"
+        android:text="@string/geolocationSync" />
+
+    <TextView
+        android:id="@+id/geoLocationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/cellPhoneNumTitle"
+        android:layout_marginTop="23dp"
+        android:padding="5dp"
+        android:text="@string/geolocationTitle" />
+
+    <TextView
+        android:id="@+id/cellPhoneNumTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/geoLocationBtn"
+        android:layout_marginTop="28dp"
+        android:padding="5dp"
+        android:text="@string/cellphoneNumer" />
+
+    <Spinner
+        android:id="@+id/providerArraySpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cellPhoneNumTitle"
+        android:layout_marginTop="72dp"
+        android:layout_toRightOf="@+id/providerTitle"
+        android:hint="Choose" />
+
+    <TextView
+        android:id="@+id/providerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/providerArraySpinner"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="16dp"
+        android:padding="5dp"
+        android:text="@string/providerTitle" />
+
+    <EditText
+        android:id="@+id/cellPhoneNumberEditArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/cellPhoneNumTitle"
+        android:layout_alignRight="@+id/homeNumberEditArea"
+        android:layout_alignTop="@+id/cellPhoneNumTitle"
+        android:layout_toRightOf="@+id/cellPhoneNumTitle"
+        android:ems="10"
+        android:inputType="phone" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/homeNumberEditArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/homeNumberTitle"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@id/cellPhoneNumTitle"
+        android:ems="10"
+        android:inputType="phone" />
+
+    <Button
+        android:id="@+id/goButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/homeNumberEditArea"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:onClick="updatePrefrences"
+        android:text="@string/goBtn" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/goButton"
+        android:gravity="center"
+        android:text="@string/cancelBtn" />
+
+    <TextView
+        android:id="@+id/homeNumberTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/cellPhoneNumTitle"
+        android:layout_marginTop="18dp"
+        android:padding="5dp"
+        android:text="@string/homephoneNumber" />
+
+</RelativeLayout>
