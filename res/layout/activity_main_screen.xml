@@ -112,4 +112,13 @@
         android:padding="5dp"
         android:text="@string/homephoneNumber" />
 
+    <fragment
+        android:id="@+id/mapHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/goButton"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/providerArraySpinner"
+        class="com.google.android.gms.maps.MapFragment" />
+
 </RelativeLayout>
