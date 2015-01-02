@@ -1809,7 +1809,7 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f070005;
         public static final int create_calendar_title=0x7f070004;
         public static final int decline=0x7f070003;
-        public static final int geolocationSync=0x7f070038;
+        public static final int geoLocationSyncText=0x7f070038;
         public static final int geolocationTitle=0x7f070031;
         public static final int goBtn=0x7f070039;
         public static final int homePhoneNumberHint=0x7f070036;

@@ -11,7 +11,7 @@
     <string name="homePhoneNumberHint">This is the number to route to</string>
 
     <string name="providerTitle">Service Provider:</string>
-    <string name="geolocationSync">Sync</string>
+    <string name="geoLocationSyncText">Sync</string>
     
     <string-array name="serviceProviderArray">
         <item name="providerOranges">Orange</item>

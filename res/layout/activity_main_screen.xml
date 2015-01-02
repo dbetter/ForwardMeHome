@@ -14,8 +14,8 @@
         android:layout_alignBaseline="@+id/geoLocationTitle"
         android:layout_alignBottom="@+id/geoLocationTitle"
         android:layout_centerHorizontal="true"
-        android:onClick="setGeolocation"
-        android:text="@string/geolocationSync" />
+        android:onClick="onSyncBtnClicked"
+        android:text="@string/geoLocationSyncText" />
 
     <TextView
         android:id="@+id/geoLocationTitle"
