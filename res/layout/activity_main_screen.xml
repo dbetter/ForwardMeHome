@@ -62,9 +62,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/cellPhoneNumTitle"
         android:layout_alignRight="@+id/homeNumberEditArea"
-        android:layout_alignTop="@+id/cellPhoneNumTitle"
+        android:layout_below="@+id/geoLocationBtn"
         android:layout_toRightOf="@+id/cellPhoneNumTitle"
-        android:ems="10"
+        android:ems="20"
+        android:paddingTop="15dp"
         android:inputType="phone" >
 
         <requestFocus />
@@ -75,7 +76,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/homeNumberTitle"
-        android:layout_marginBottom="5dp"
         android:layout_marginRight="15dp"
         android:layout_toRightOf="@id/cellPhoneNumTitle"
         android:ems="10"
@@ -90,6 +90,7 @@
         android:layout_alignParentRight="true"
         android:gravity="center"
         android:onClick="updatePrefrences"
+        android:enabled="false"
         android:text="@string/goBtn" />
 
     <Button

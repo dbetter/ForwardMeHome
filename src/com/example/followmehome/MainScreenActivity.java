@@ -38,6 +38,14 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback{
 	private static LatLng globalLatLng = null;
 	private static MapFragment mapFragment;
 	
+	private static boolean cellNumberStatus = false;
+	private static boolean homeNumberStatus = false;
+	
+	private enum NumberValidationType {
+		CELL,
+		HOME
+	}
+	
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,37 +70,62 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback{
     }
 	
 	private void addEditTextListeners() {
-		EditText cellPhoneEditText = (EditText)findViewById(R.id.cellPhoneNumberEditArea);
 		
-		cellPhoneEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+		/* This function will take care of adding change listeners for the following:
+		 * 1. Cell phone number edit text area
+		 * 2. Home phone number edit text area
+		 */
+		
+		EditText cellPhoneEditText = (EditText)findViewById(R.id.cellPhoneNumberEditArea);
+		setEditTextListener(cellPhoneEditText, "Invalid cell number entered, please check the number again", NumberValidationType.CELL);
+		
+		EditText homePhoneEditText = (EditText)findViewById(R.id.homeNumberEditArea);
+		setEditTextListener(homePhoneEditText, "Invalid home number entered, please check  the number again", NumberValidationType.HOME);
+	}
+	
+	private void setEditTextListener(View editTextview, final String toastMessege, final NumberValidationType type){
+		
+		editTextview.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				
 				Button goBtn = (Button)findViewById(R.id.goButton);
+				boolean res = false;
+				
 				if (!hasFocus){
+					switch(type){
+						case CELL:
+							res = validateCellNumber();
+							cellNumberStatus = res;
+							break;
+						case HOME:
+							res = validateHomeNumber();
+							homeNumberStatus = res;
+							break;
+					}
+					
 					// the user has zoomed out, we can check the data inserted
-					boolean res = validateCellNumber();
 					if (res == false){
-						Toast invalidInfo = new Toast(MainScreenActivity.this);
-						invalidInfo.setText("Invalid cell number entered, please check the number again");
-						invalidInfo.setDuration(50000);
+						// illegal number was inserted
+						// Set the toast with the custom message toastMessege and display it
+						Toast invalidInfo = Toast.makeText(getApplicationContext(), toastMessege , Toast.LENGTH_LONG);
 						invalidInfo.show();
 					
+						// Disable goBtn click and view
 						goBtn.setClickable(false);
 						goBtn.setEnabled(false);
 						Log.d(sout,"invalid");
-					} else{
-						// legal number was inserted
+					} else if (homeNumberStatus && cellNumberStatus){
+						// legal number was inserted and also "partner" cell/home number is legal, enable the goBtn
 						goBtn.setClickable(true);
-						goBtn.setEnabled(false);
+						goBtn.setEnabled(true);
 						Log.d(sout,"valid");
 					}
 				}
 				
 			}
 		});
-		
 	}
 	
 	private boolean validateCellNumber(){
@@ -108,6 +141,20 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback{
 			return true;
 		}
 		
+	}
+	
+	private boolean validateHomeNumber(){
+		EditText numberEditText = (EditText)findViewById(R.id.homeNumberEditArea);
+		String number = numberEditText.getText().toString();
+		
+		if (number.length() != 10){
+			return false;
+		} else if (number.charAt(0) != '0'){
+			return false;
+		} else{
+			// consider adding more test-cases here
+			return true;
+		}
 	}
 
 	public void onSyncBtnClicked(View v){
