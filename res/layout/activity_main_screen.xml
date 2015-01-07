@@ -90,7 +90,6 @@
         android:layout_alignParentRight="true"
         android:gravity="center"
         android:onClick="updatePrefrences"
-        android:enabled="false"
         android:text="@string/goBtn" />
 
     <Button

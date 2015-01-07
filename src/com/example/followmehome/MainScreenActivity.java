@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Criteria;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -23,7 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainScreenActivity extends Activity implements OnMapReadyCallback{
+public class MainScreenActivity extends Activity implements OnMapReadyCallback, LocationListener{
 	
 	private static String cellPhoneNumber = null;
 	private static String homePhoneNumer = null; 
@@ -34,8 +35,8 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback{
 	private static LocationListener locationListener;
 	private static Location lastKnownLocation;
 	private static String locationProvider = LocationManager.GPS_PROVIDER;
-	
 	private static LatLng globalLatLng = null;
+
 	private static MapFragment mapFragment;
 	
 	private static boolean cellNumberStatus = false;
@@ -65,9 +66,14 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback{
         	Log.d(sout, "got here");
         }
         
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+//        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        
         setGeolocationListener();
         addEditTextListeners();
     }
+	
 	
 	private void addEditTextListeners() {
 		
@@ -160,16 +166,20 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback{
 	public void onSyncBtnClicked(View v){
 		
 		Log.d(sout, "got here");
-		if (globalLatLng == null){
-			Log.d(sout, "inside 1 - got here");
-			locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-			lastKnownLocation = locationManager.getLastKnownLocation("gps");
-			globalLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-		} else {
-			// Consider if there's more work to be done here
-			Log.d(sout, "inside 2 - got here");
-		}
-		mapFragment.getMapAsync(MainScreenActivity.this);
+        lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        
+        if (lastKnownLocation != null){
+        	// We found GPS signal
+        	globalLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+        } else{
+        	// Try to find network signal
+        	lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        	if (lastKnownLocation != null){
+        		globalLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());        		
+        	}
+        }
+
+		mapFragment.getMapAsync(this);
 		
 		
 	}
@@ -179,7 +189,7 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback{
         LatLng currLatLng = globalLatLng;
 
         map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currLatLng, 8));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currLatLng, 15));
 
         map.addMarker(new MarkerOptions()
                 .title("Your location")
@@ -213,7 +223,8 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback{
 		  };
 	    
 		// Request updates with parameters of min time: 30 seconds and min distance 25 meters  
-	    locationManager.requestLocationUpdates(locationProvider, 30000, 25, locationListener);		
+	    locationManager.requestLocationUpdates(locationProvider, 30000, 25, locationListener);
+	    locationManager.requestLocationUpdates(locationProvider, 30000, 25, locationListener);
 	
 	}
 	
@@ -255,6 +266,39 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback{
 	
 	private void updateValues(){
 		// to be implemented 
+	}
+
+
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+        String str = "Latitude: "+location.getLatitude()+" Longitude: "+location.getLongitude();
+        Toast.makeText(getBaseContext(), str, Toast.LENGTH_LONG).show();	
+        Log.d(sout, "loc changed");
+	}
+
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		Toast.makeText(getBaseContext(), "GPS turned off\nRemeber! FollowMeHome needs The GPS enabled ", Toast.LENGTH_LONG).show();
+		Log.d(sout, "disabled");
+	}
+
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		Toast.makeText(getBaseContext(), "GPS turned on ", Toast.LENGTH_LONG).show();
+		Log.d(sout, "enabled");
+		
+	}
+
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+		Log.d(sout, "changed");
 	}
 
 }
