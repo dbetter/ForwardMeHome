@@ -27,48 +27,16 @@
         android:padding="5dp"
         android:text="@string/geolocationTitle" />
 
-    <TextView
-        android:id="@+id/cellPhoneNumTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/geoLocationBtn"
-        android:layout_marginTop="28dp"
-        android:padding="5dp"
-        android:text="@string/cellphoneNumer" />
-
-    <Spinner
-        android:id="@+id/providerArraySpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cellPhoneNumTitle"
-        android:layout_marginTop="72dp"
-        android:layout_toRightOf="@+id/providerTitle"
-        android:hint="Choose" />
-
-    <TextView
-        android:id="@+id/providerTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/providerArraySpinner"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="16dp"
-        android:padding="5dp"
-        android:text="@string/providerTitle" />
-
     <EditText
         android:id="@+id/cellPhoneNumberEditArea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/cellPhoneNumTitle"
         android:layout_alignRight="@+id/homeNumberEditArea"
-        android:layout_below="@+id/geoLocationBtn"
+        android:layout_alignTop="@+id/cellPhoneNumTitle"
         android:layout_toRightOf="@+id/cellPhoneNumTitle"
         android:ems="20"
-        android:paddingTop="15dp"
         android:inputType="phone" >
-
-        <requestFocus />
     </EditText>
 
     <EditText
@@ -102,23 +70,55 @@
         android:gravity="center"
         android:text="@string/cancelBtn" />
 
-    <TextView
-        android:id="@+id/homeNumberTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/cellPhoneNumTitle"
-        android:layout_marginTop="18dp"
-        android:padding="5dp"
-        android:text="@string/homephoneNumber" />
-
     <fragment
         android:id="@+id/mapHolder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/goButton"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/providerArraySpinner"
+        android:layout_above="@+id/cellPhoneNumberEditArea"
+        android:layout_alignLeft="@+id/geoLocationTitle"
+        android:layout_alignRight="@+id/cellPhoneNumberEditArea"
+        android:layout_below="@+id/geoLocationBtn"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
         class="com.google.android.gms.maps.MapFragment" />
+
+    <Spinner
+        android:id="@+id/providerArraySpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignTop="@+id/providerTitle"
+        android:layout_toRightOf="@+id/providerTitle"  
+        android:entries="@array/serviceProviderArray"/>
+
+    <TextView
+        android:id="@+id/providerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/homeNumberEditArea"
+        android:layout_marginTop="23dp"
+        android:padding="5dp"
+        android:text="@string/providerTitle" />
+
+    <TextView
+        android:id="@+id/cellPhoneNumTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/homeNumberEditArea"
+        android:layout_alignParentLeft="true"
+        android:padding="5dp"
+        android:text="@string/cellphoneNumer" />
+
+    <TextView
+        android:id="@+id/homeNumberTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button2"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="111dp"
+        android:padding="5dp"
+        android:text="@string/homephoneNumber" />
 
 </RelativeLayout>

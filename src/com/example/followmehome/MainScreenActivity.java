@@ -58,18 +58,12 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
        
         try{
         	uiThreadHandler = new Handler();
-//        	Spinner providerSpinner = (Spinner) findViewById(R.id.providerArraySpinner);
-//        	ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.serviceProviderArray, R.layout.support_simple_spinner_dropdown_item);
-//        	adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-//        	providerSpinner.setAdapter(adapter);
+            locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         } catch (Exception e){
         	Log.d(sout, "got here");
         }
-        
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-//        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        
+      
         setGeolocationListener();
         addEditTextListeners();
     }
@@ -189,7 +183,7 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
         LatLng currLatLng = globalLatLng;
 
         map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currLatLng, 15));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currLatLng, 14));
 
         map.addMarker(new MarkerOptions()
                 .title("Your location")
