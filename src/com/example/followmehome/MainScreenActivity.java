@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +48,16 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		HOME
 	}
 	
+	private enum Provider {
+		_012,
+		ORANGE,
+		PELEPHONE,
+		CELLCOM,
+		GOLAN
+	}
+	
+	private Provider provider;
+	
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +76,47 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
         }
       
         setGeolocationListener();
+        setProviderListener();
         addEditTextListeners();
     }
+	
+	
+	private void setProviderListener(){
+		Spinner providerSpinner = (Spinner)findViewById(R.id.providerArraySpinner);
+		providerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View arg1, int position, long id) {
+				// Get the item selected from the Spinner (represented as the parent variable) at "position"
+				String val = parent.getItemAtPosition(position).toString();
+				
+				switch (val){
+					case "012":
+						provider = Provider._012;
+						break;					
+					case "Pelephone":
+						provider = Provider.PELEPHONE;
+						break;
+					case "Cellcom":
+						provider = Provider.CELLCOM;
+						break;	
+					case "Orange":
+						provider = Provider.ORANGE;
+						break;
+					case "Golan Telecom":
+						provider = Provider.GOLAN;
+				}
+				Log.d(sout, "The item selected is: "+val);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				Toast errorMessege = Toast.makeText(getApplicationContext(), "No provider selected. \nPlease choose a provider", Toast.LENGTH_SHORT);
+				errorMessege.show();
+			}
+		});
+	}
 	
 	
 	private void addEditTextListeners() {
@@ -156,7 +206,7 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 			return true;
 		}
 	}
-
+	
 	public void onSyncBtnClicked(View v){
 		
 		Log.d(sout, "got here");
@@ -174,9 +224,19 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
         }
 
 		mapFragment.getMapAsync(this);
-		
-		
 	}
+	
+	@Override
+	public void onStart(){
+		super.onStart();
+		if (globalLatLng != null){
+			mapFragment.getMapAsync(this);
+		}
+		Log.d(sout,"started");
+	}
+		
+		
+	
 
     @Override
     public void onMapReady(GoogleMap map) {
