@@ -6,12 +6,13 @@
     <string name="cellphoneNumer">Cell Phone Number:</string>
     <string name="homephoneNumber">Home Number:</string>
     <string name="supplier">Service supplier:</string>
-    
     <string name="cellPhoneNumberHint">This is the number you want to forward</string>
     <string name="homePhoneNumberHint">This is the number to route to</string>
-
     <string name="providerTitle">Service Provider:</string>
     <string name="geoLocationSyncText">Sync</string>
+
+    <string name="aboutUs">About</string>
+    <string name="letsGo">Lets Go!</string>
     
     <string-array name="serviceProviderArray">
         <item name="providerOranges">Orange</item>
@@ -20,6 +21,11 @@
         <item name="providerPelephone">Pelephone</item>
         <item name="providerGolanTelecom">Golan Telecom</item>
     </string-array>
+
     <string name="goBtn">Go!</string>
     <string name="cancelBtn">Cancel</string>
+    <string name="title_activity_landing_screen">LandingScreenActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

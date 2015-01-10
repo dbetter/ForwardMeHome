@@ -1355,6 +1355,15 @@ containing a value of this type.
  Minimum width of the search view text entry area. 
          */
         public static final int abc_search_view_text_min_width=0x7f0c000c;
+        /**  Default screen margins, per the Android Design guidelines. 
+
+         Example customization of dimensions originally defined in res/values/dimens.xml
+         (such as screen margins) for screens with more than 820dp of available width. This
+         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
+    
+         */
+        public static final int activity_horizontal_margin=0x7f0c0015;
+        public static final int activity_vertical_margin=0x7f0c0016;
         /**  The platform's desired fixed height for a dialog along the major axis
          (the screen is in portrait). This may be either a fraction or a dimension.
  The platform's desired fixed height for a dialog along the major axis
@@ -1509,8 +1518,10 @@ containing a value of this type.
         public static final int ic_plusone_tall_off_client=0x7f020075;
         public static final int powered_by_google_dark=0x7f020076;
         public static final int powered_by_google_light=0x7f020077;
+        public static final int test=0x7f020078;
     }
     public static final class id {
+        public static final int aboutBtn=0x7f080052;
         public static final int action_bar=0x7f080031;
         public static final int action_bar_activity_content=0x7f08002a;
         public static final int action_bar_container=0x7f080030;
@@ -1522,18 +1533,19 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f08002b;
         public static final int action_menu_presenter=0x7f08002c;
         public static final int action_mode_close_button=0x7f080039;
+        public static final int action_settings=0x7f08005f;
         public static final int activity_chooser_view_content=0x7f08003a;
         public static final int adjust_height=0x7f080002;
         public static final int adjust_width=0x7f080001;
         public static final int always=0x7f080021;
         public static final int beginning=0x7f080026;
         public static final int book_now=0x7f080012;
-        public static final int button2=0x7f080058;
+        public static final int button2=0x7f08005b;
         public static final int buyButton=0x7f08000c;
         public static final int buy_now=0x7f080011;
         public static final int buy_with_google=0x7f080010;
-        public static final int cellPhoneNumTitle=0x7f080053;
-        public static final int cellPhoneNumberEditArea=0x7f080054;
+        public static final int cellPhoneNumTitle=0x7f080056;
+        public static final int cellPhoneNumberEditArea=0x7f080057;
         public static final int checkbox=0x7f080042;
         public static final int classic=0x7f080014;
         public static final int collapseActionView=0x7f080023;
@@ -1546,23 +1558,25 @@ containing a value of this type.
         public static final int end=0x7f080028;
         public static final int expand_activities_button=0x7f08003b;
         public static final int expanded_menu=0x7f080041;
-        public static final int geoLocationBtn=0x7f080051;
-        public static final int geoLocationTitle=0x7f080052;
-        public static final int goButton=0x7f080057;
+        public static final int geoLocationBtn=0x7f080054;
+        public static final int geoLocationTitle=0x7f080055;
+        public static final int goButton=0x7f08005a;
         public static final int grayscale=0x7f080015;
         public static final int holo_dark=0x7f080007;
         public static final int holo_light=0x7f080008;
         public static final int home=0x7f080029;
         public static final int homeAsUp=0x7f08001b;
-        public static final int homeNumberEditArea=0x7f080055;
-        public static final int homeNumberTitle=0x7f080056;
+        public static final int homeNumberEditArea=0x7f080058;
+        public static final int homeNumberTitle=0x7f080059;
         public static final int hybrid=0x7f080006;
         public static final int icon=0x7f08003f;
         public static final int ifRoom=0x7f080020;
         public static final int image=0x7f08003c;
+        public static final int landingPhoto=0x7f080051;
+        public static final int letsGoBtn=0x7f080053;
         public static final int listMode=0x7f080017;
         public static final int list_item=0x7f08003e;
-        public static final int mapHolder=0x7f080059;
+        public static final int mapHolder=0x7f08005c;
         public static final int match_parent=0x7f08000e;
         public static final int middle=0x7f080027;
         public static final int monochrome=0x7f080016;
@@ -1572,8 +1586,8 @@ containing a value of this type.
         public static final int production=0x7f080009;
         public static final int progress_circular=0x7f08002d;
         public static final int progress_horizontal=0x7f08002e;
-        public static final int providerArraySpinner=0x7f08005a;
-        public static final int providerTitle=0x7f08005b;
+        public static final int providerArraySpinner=0x7f08005d;
+        public static final int providerTitle=0x7f08005e;
         public static final int radio=0x7f080044;
         public static final int sandbox=0x7f08000a;
         public static final int satellite=0x7f080004;
@@ -1655,8 +1669,12 @@ containing a value of this type.
         public static final int abc_search_dropdown_item_icons_2line=0x7f030015;
         public static final int abc_search_view=0x7f030016;
         public static final int abc_simple_decor=0x7f030017;
-        public static final int activity_main_screen=0x7f030018;
-        public static final int support_simple_spinner_dropdown_item=0x7f030019;
+        public static final int activity_landing_screen=0x7f030018;
+        public static final int activity_main_screen=0x7f030019;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001a;
+    }
+    public static final class menu {
+        public static final int landing_screen=0x7f0e0000;
     }
     public static final class raw {
         public static final int gtm_analytics=0x7f050000;
@@ -1702,9 +1720,11 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f07002e;
+        public static final int aboutUs=0x7f070039;
         public static final int accept=0x7f070002;
+        public static final int action_settings=0x7f07003f;
         public static final int app_name=0x7f070030;
-        public static final int cancelBtn=0x7f07003a;
+        public static final int cancelBtn=0x7f07003c;
         public static final int cellPhoneNumberHint=0x7f070035;
         public static final int cellphoneNumer=0x7f070032;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
@@ -1811,13 +1831,16 @@ containing a value of this type.
         public static final int decline=0x7f070003;
         public static final int geoLocationSyncText=0x7f070038;
         public static final int geolocationTitle=0x7f070031;
-        public static final int goBtn=0x7f070039;
+        public static final int goBtn=0x7f07003b;
+        public static final int hello_world=0x7f07003e;
         public static final int homePhoneNumberHint=0x7f070036;
         public static final int homephoneNumber=0x7f070033;
+        public static final int letsGo=0x7f07003a;
         public static final int providerTitle=0x7f070037;
         public static final int store_picture_message=0x7f070001;
         public static final int store_picture_title=0x7f070000;
         public static final int supplier=0x7f070034;
+        public static final int title_activity_landing_screen=0x7f07003d;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */
