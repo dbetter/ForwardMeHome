@@ -330,10 +330,11 @@ int drawable ic_plusone_medium_off_client 0x7f020072
 int drawable ic_plusone_small_off_client 0x7f020073
 int drawable ic_plusone_standard_off_client 0x7f020074
 int drawable ic_plusone_tall_off_client 0x7f020075
-int drawable powered_by_google_dark 0x7f020076
-int drawable powered_by_google_light 0x7f020077
-int drawable test 0x7f020078
-int id aboutBtn 0x7f080052
+int drawable info 0x7f020076
+int drawable letsgobtn 0x7f020077
+int drawable mainview 0x7f020078
+int drawable powered_by_google_dark 0x7f020079
+int drawable powered_by_google_light 0x7f02007a
 int id action_bar 0x7f080031
 int id action_bar_activity_content 0x7f08002a
 int id action_bar_container 0x7f080030
@@ -384,6 +385,7 @@ int id hybrid 0x7f080006
 int id icon 0x7f08003f
 int id ifRoom 0x7f080020
 int id image 0x7f08003c
+int id infoPhoto 0x7f080052
 int id landingPhoto 0x7f080051
 int id letsGoBtn 0x7f080053
 int id listMode 0x7f080017

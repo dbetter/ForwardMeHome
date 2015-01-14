@@ -1516,12 +1516,13 @@ containing a value of this type.
         public static final int ic_plusone_small_off_client=0x7f020073;
         public static final int ic_plusone_standard_off_client=0x7f020074;
         public static final int ic_plusone_tall_off_client=0x7f020075;
-        public static final int powered_by_google_dark=0x7f020076;
-        public static final int powered_by_google_light=0x7f020077;
-        public static final int test=0x7f020078;
+        public static final int info=0x7f020076;
+        public static final int letsgobtn=0x7f020077;
+        public static final int mainview=0x7f020078;
+        public static final int powered_by_google_dark=0x7f020079;
+        public static final int powered_by_google_light=0x7f02007a;
     }
     public static final class id {
-        public static final int aboutBtn=0x7f080052;
         public static final int action_bar=0x7f080031;
         public static final int action_bar_activity_content=0x7f08002a;
         public static final int action_bar_container=0x7f080030;
@@ -1572,6 +1573,7 @@ containing a value of this type.
         public static final int icon=0x7f08003f;
         public static final int ifRoom=0x7f080020;
         public static final int image=0x7f08003c;
+        public static final int infoPhoto=0x7f080052;
         public static final int landingPhoto=0x7f080051;
         public static final int letsGoBtn=0x7f080053;
         public static final int listMode=0x7f080017;
