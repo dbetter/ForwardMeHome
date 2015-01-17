@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border_background"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/authorPicture"
+            android:layout_width="114dp"
+            android:layout_height="137dp"
+            android:paddingLeft="5dp"
+            android:src="@drawable/danielpic" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/authorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:paddingLeft="10dp"
+                android:text="Author: Daniel Better"
+                android:textColor="@color/popup_text" />
+
+            <TextView
+                android:id="@+id/version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:paddingLeft="10dp"
+                android:text="Version: 1.0"
+                android:textColor="@color/popup_text" />
+
+            <TextView
+                android:id="@+id/lastUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:paddingLeft="10dp"
+                android:text="Last update: January, 20, 2015"
+                android:textColor="@color/popup_text"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/lineBreak"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:src="@drawable/linebreak" />
+
+    <TextView
+        android:id="@+id/appPurpose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:selectAllOnFocus="true"
+        android:paddingLeft="5dp"
+        android:text="The application is meant to solve the hassle of dealing with incoming calls to our mobile devices in areas without reception (primarily home) by forwarding calls from our mobile phone to our home phone, and doing so by analyzing our GPS location (so that when we&apos;re near home/reach home, the calls would automatically be forwarded to the home phone) and vice-verse."
+        android:textColor="@color/popup_text" />
+
+</LinearLayout>

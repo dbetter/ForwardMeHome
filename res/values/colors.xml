@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- My own color resouce, to include this file in the application's screens, just refer to it by @color/<color-name>  -->
+<resources>
+    <color name="popup_window">#404040</color>
+    <color name="popup_text">#ffffcc</color>
+</resources>
