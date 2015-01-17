@@ -14,17 +14,20 @@
             android:id="@+id/authorPicture"
             android:layout_width="114dp"
             android:layout_height="137dp"
-            android:paddingLeft="5dp"
+            android:paddingLeft="17dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/danielpic" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="167dp"
+            android:paddingLeft="-12dp"
             android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/authorText"
-                android:layout_width="wrap_content"
+                android:layout_width="146dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
@@ -52,11 +55,21 @@
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:paddingLeft="10dp"
-                android:text="Last update: January, 20, 2015"
+                android:text="Last update: Jan, 20, 2015"
                 android:textColor="@color/popup_text"
                 android:textSize="12dp" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/closePopupBtnPhoto"
+            android:layout_width="32dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="-52dp"
+            android:paddingRight="15dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/close_btn3" />
+
     </LinearLayout>
 
     <ImageView

@@ -4,12 +4,14 @@ import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
@@ -17,6 +19,7 @@ import android.widget.PopupWindow;
 
 public class LandingScreenActivity extends Activity {
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,12 +67,28 @@ public class LandingScreenActivity extends Activity {
 			public void onClick(View v) {
 				LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 				View popupView = layoutInflater.inflate(R.layout.infopopup, null);
-				final PopupWindow popupWin = new PopupWindow(popupView, 600, 700, true);
-			
+				final PopupWindow popupWin = new PopupWindow(popupView, 600, 625, true);
 				popupWin.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+				
+				addOnCancelBtnImageViewListener(popupView, popupWin);
 			}
 		});
 	}
+	
+	private void addOnCancelBtnImageViewListener(View popupView, final PopupWindow popupWin){
+		// This function is only to be called from within the anonymous class inside addOnInfoClickedListener
+		ImageView cancelBtnImageView = (ImageView) popupView.findViewById(R.id.closePopupBtnPhoto);
+		cancelBtnImageView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				popupWin.dismiss();
+				
+			}
+		});
+	}
+	
+	
+
 }
 
 
