@@ -67,7 +67,7 @@ public class LandingScreenActivity extends Activity {
 			public void onClick(View v) {
 				LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 				View popupView = layoutInflater.inflate(R.layout.infopopup, null);
-				final PopupWindow popupWin = new PopupWindow(popupView, 600, 625, true);
+				final PopupWindow popupWin = new PopupWindow(popupView, 400, 560, true);
 				popupWin.showAtLocation(popupView, Gravity.CENTER, 0, 0);
 				
 				addOnCancelBtnImageViewListener(popupView, popupWin);

@@ -61,6 +61,8 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
+		
+		
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
@@ -313,7 +315,6 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		 
 		  
 		*/
-		
 		
 		progressDialog.dismiss();
 	}
