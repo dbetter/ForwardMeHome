@@ -33,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/cellPhoneNumTitle"
         android:layout_alignRight="@+id/homeNumberEditArea"
-        android:layout_alignTop="@+id/cellPhoneNumTitle"
         android:layout_toRightOf="@+id/cellPhoneNumTitle"
         android:ems="20"
         android:inputType="phone" >
@@ -89,7 +88,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="false"
         android:layout_alignTop="@+id/providerTitle"
-        android:layout_toRightOf="@+id/providerTitle"  
+        android:layout_toRightOf="@+id/providerTitle"
+        android:layout_marginLeft="20dp"  
         android:entries="@array/serviceProviderArray"/>
 
     <TextView
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/homeNumberEditArea"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="10dp"
         android:padding="5dp"
         android:text="@string/providerTitle" />
 

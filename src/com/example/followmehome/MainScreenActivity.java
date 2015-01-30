@@ -40,7 +40,8 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 	private static Location lastKnownLocation;
 	private static String locationProvider = LocationManager.GPS_PROVIDER;
 	private static LatLng globalLatLng = null;
-
+	private static LatLng userPrefrencesLatLng = null;
+	
 	private static MapFragment mapFragment;
 	
 	private static boolean cellNumberStatus = false;
@@ -221,7 +222,7 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
         	// Try to find network signal
         	lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         	if (lastKnownLocation != null){
-        		globalLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());        		
+        		userPrefrencesLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());        		
         	}
         }
 
@@ -242,14 +243,15 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 
     @Override
     public void onMapReady(GoogleMap map) {
-        LatLng currLatLng = globalLatLng;
+    	// LatLng currLatLng = globalLatLng;
+    	LatLng currLatLng = userPrefrencesLatLng;
 
         map.setMyLocationEnabled(true);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currLatLng, 14));
 
         map.addMarker(new MarkerOptions()
                 .title("Your location")
-                .snippet("This is the location that will be used to calculate your radius")
+                .snippet("We'll use this location as home")
                 .position(currLatLng));
     }
 	
@@ -271,6 +273,17 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		    	} catch (Exception e){
 		    		// to-handle
 		    	}
+		    	
+		    	// Consider if this is the best place for this piece of code (onCreate/onResume)
+		    	Location userHomeLocation = new Location("");
+		    	userHomeLocation.setLatitude(userPrefrencesLatLng.latitude);
+		    	userHomeLocation.setLongitude(userPrefrencesLatLng.longitude);
+		    	
+		    	if (userHomeLocation.distanceTo(location) < 40){
+		    		// Means the distance between our current-location and house-location is less then 40meters away
+		    		// that means we need to forward the calls from our cell -> home
+		    	}
+		    	
 		    }
 
 		    public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -279,9 +292,7 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		  };
 	    
 		// Request updates with parameters of min time: 30 seconds and min distance 25 meters  
-	    locationManager.requestLocationUpdates(locationProvider, 30000, 25, locationListener);
-	    locationManager.requestLocationUpdates(locationProvider, 30000, 25, locationListener);
-	
+	    locationManager.requestLocationUpdates(locationProvider, 30000, 25, locationListener);	
 	}
 	
 	public void updatePrefrences(View view){
@@ -383,39 +394,63 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		 * provider
 		 */
 		try {
-		    BufferedReader inputReader = new BufferedReader(new InputStreamReader(openFileInput("userPrefrences")));
-		    
-		    String inputString;
-		    		    
-		    inputString = inputReader.readLine();
-		    double lat = Double.parseDouble(inputString.toString());
-		    inputString = inputReader.readLine();
-		    double longtitue = Double.parseDouble(inputString.toString());
-		    
-		    globalLatLng = new LatLng(lat,longtitue);
-		    mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapHolder);
-		    mapFragment.getMapAsync(this);
-		    
-		    inputString = inputReader.readLine();
-		    EditText cellPhoneNum = (EditText)findViewById(R.id.cellPhoneNumberEditArea);
-		    cellPhoneNum.setText(inputString.toString());
-		    
-		    inputString = inputReader.readLine();
-		    EditText homeNum = (EditText)findViewById(R.id.homeNumberEditArea);
-		    homeNum.setText(inputString.toString());
-		    
-		    inputString = inputReader.readLine();
-		    
-		    handleSpinnerLoad(inputString);
-		    
-		    
-		    
+		    BufferedReader inputReader = new BufferedReader(new InputStreamReader(openFileInput("userPrefrences")));		      		    
+		    handleGeoLocationRead(inputReader);
+		    handleCellPhoneRead(inputReader);
+		    handleHomePhoneRead(inputReader);    
+		    handleSpinnerLoad(inputReader);    
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
 	}
 	
-	private void handleSpinnerLoad(String value){
+	private void handleHomePhoneRead(BufferedReader inputReader){
+		String inputString;
+		try{
+		    inputString = inputReader.readLine();
+		    EditText homeNum = (EditText)findViewById(R.id.homeNumberEditArea);
+		    homeNum.setText(inputString.toString());
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void handleCellPhoneRead(BufferedReader inputReader){
+		String inputString;
+		try{		
+			inputString = inputReader.readLine();
+			EditText cellPhoneNum = (EditText)findViewById(R.id.cellPhoneNumberEditArea);
+			cellPhoneNum.setText(inputString.toString());
+		} catch (IOException e){
+			//TO-DO
+		}
+	}
+	
+	private void handleGeoLocationRead(BufferedReader inputReader){
+		
+		String inputString;
+		try{
+			inputString = inputReader.readLine();
+		    double lat = Double.parseDouble(inputString.toString());
+		    inputString = inputReader.readLine();
+		    double longtitue = Double.parseDouble(inputString.toString());
+		    
+		    userPrefrencesLatLng = new LatLng(lat,longtitue);
+		    mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapHolder);
+		    mapFragment.getMapAsync(this);
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+	    
+	}
+	private void handleSpinnerLoad(BufferedReader inputReader){
+		String value = null;
+		try{
+			value = inputReader.readLine();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		
 		Spinner provider = (Spinner)findViewById(R.id.providerArraySpinner);
 	    switch (value) {
 		case "Orange":
@@ -441,4 +476,3 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 	}
 
 }
-
