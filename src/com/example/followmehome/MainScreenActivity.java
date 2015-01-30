@@ -1,28 +1,31 @@
 package com.example.followmehome;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.location.Criteria;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 public class MainScreenActivity extends Activity implements OnMapReadyCallback, LocationListener{
@@ -65,21 +68,19 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapHolder);
-             
-       
+        
         try{
-        	uiThreadHandler = new Handler();
             locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            setGeolocationListener();
+            setProviderListener();
+            addEditTextListeners();
         } catch (Exception e){
         	Log.d(sout, "got here");
         }
       
-        setGeolocationListener();
-        setProviderListener();
-        addEditTextListeners();
+
     }
 	
 	
@@ -113,7 +114,6 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
 				Toast errorMessege = Toast.makeText(getApplicationContext(), "No provider selected. \nPlease choose a provider", Toast.LENGTH_SHORT);
 				errorMessege.show();
 			}
@@ -286,38 +286,50 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 	
 	public void updatePrefrences(View view){
 		
-		final ProgressDialog progressDialog = ProgressDialog.show(
-				this,
-				"Updating your settings!",
-				"This will only take a moment");
-		
-		
-		// open up a new thread to make the work
-		Thread processThread = new Thread(){
-			// this thread will handle all computation that needs to be done outside the UI realm
-			public void run(){
-				updateValues();
+		EditText cellNumEditText = (EditText)findViewById(R.id.cellPhoneNumberEditArea);
+		String cellNumString = cellNumEditText.getText().toString();
+		cellNumString = cellNumString + "\n";
+
+		EditText homeNumEditText = (EditText)findViewById(R.id.homeNumberEditArea);
+		String homeNumString = homeNumEditText.getText().toString();
+		homeNumString = homeNumString+"\n";
+
+		String lat = String.valueOf(globalLatLng.latitude);
+		lat = lat+"\n";
+		String longtitude = String.valueOf(globalLatLng.longitude);
+		longtitude = longtitude+"\n";
+
+		try{
+			FileOutputStream fos = openFileOutput("userPrefrences", Context.MODE_PRIVATE);
+			
+			fos.write(lat.getBytes());
+			fos.write(longtitude.getBytes());
+			fos.write(cellNumString.getBytes());
+			fos.write(homeNumString.getBytes());
 				
-				
-				// somewhere inside here we need to pass control to the Handler so that the UI thread releases the ProgressDialog
-				uiThreadHandler.post(new Runnable() {
-					
-					@Override
-					public void run() {
-						progressDialog.dismiss();
-					}
-				});
+			switch (provider){
+				case _012:
+					fos.write("012".getBytes());
+					break;					
+				case PELEPHONE:
+					fos.write("Pelephone".getBytes());
+					break;
+				case CELLCOM:
+					fos.write("Cellcom".getBytes());
+					break;	
+				case ORANGE:
+					fos.write("Orange".getBytes());
+					break;
+				case GOLAN:
+					fos.write("Golan".getBytes());
 			}
-		};
-		processThread.start();
-		
-		/* do stuff here
-		 
-		  
-		*/
-		
-		progressDialog.dismiss();
+			fos.close();
+		} catch (Exception e){
+				
+			}
 	}
+		
+	
 	
 	private void updateValues(){
 		// to be implemented 
@@ -326,7 +338,6 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 
 	@Override
 	public void onLocationChanged(Location location) {
-		// TODO Auto-generated method stub
         String str = "Latitude: "+location.getLatitude()+" Longitude: "+location.getLongitude();
         Toast.makeText(getBaseContext(), str, Toast.LENGTH_LONG).show();	
         Log.d(sout, "loc changed");
@@ -335,7 +346,6 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
 		Toast.makeText(getBaseContext(), "GPS turned off\nRemeber! FollowMeHome needs The GPS enabled ", Toast.LENGTH_LONG).show();
 		Log.d(sout, "disabled");
 	}
@@ -343,7 +353,6 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
 		Toast.makeText(getBaseContext(), "GPS turned on ", Toast.LENGTH_LONG).show();
 		Log.d(sout, "enabled");
 		
@@ -352,8 +361,83 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
 		Log.d(sout, "changed");
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		showData();
+		
+
+	}
+	
+	public void showData(){
+		
+		/* Remember: the text file structure is this:
+		 * Latitute
+		 * Longtitude (alt)
+		 * Cell num
+		 * Home num
+		 * provider
+		 */
+		try {
+		    BufferedReader inputReader = new BufferedReader(new InputStreamReader(openFileInput("userPrefrences")));
+		    
+		    String inputString;
+		    		    
+		    inputString = inputReader.readLine();
+		    double lat = Double.parseDouble(inputString.toString());
+		    inputString = inputReader.readLine();
+		    double longtitue = Double.parseDouble(inputString.toString());
+		    
+		    globalLatLng = new LatLng(lat,longtitue);
+		    mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapHolder);
+		    mapFragment.getMapAsync(this);
+		    
+		    inputString = inputReader.readLine();
+		    EditText cellPhoneNum = (EditText)findViewById(R.id.cellPhoneNumberEditArea);
+		    cellPhoneNum.setText(inputString.toString());
+		    
+		    inputString = inputReader.readLine();
+		    EditText homeNum = (EditText)findViewById(R.id.homeNumberEditArea);
+		    homeNum.setText(inputString.toString());
+		    
+		    inputString = inputReader.readLine();
+		    
+		    handleSpinnerLoad(inputString);
+		    
+		    
+		    
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	}
+	
+	private void handleSpinnerLoad(String value){
+		Spinner provider = (Spinner)findViewById(R.id.providerArraySpinner);
+	    switch (value) {
+		case "Orange":
+			provider.setSelection(0);
+			break;
+
+		case "012":
+			provider.setSelection(1);
+			break;
+			
+		case "Cellcom":
+			provider.setSelection(2);
+			break;
+			
+		case "Pelephone":
+			provider.setSelection(3);
+			break;
+			
+		case "Golan":
+			provider.setSelection(4);
+			break;
+		}
 	}
 
 }
