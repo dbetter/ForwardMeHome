@@ -20,7 +20,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -39,7 +38,6 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 	Handler uiThreadHandler;
 	
 	private static LocationManager locationManager;
-	private static LocationListener locationListener;
 	private static Location lastKnownLocation;
 	private static String locationProvider = LocationManager.GPS_PROVIDER;
 	private static LatLng globalLatLng = null;
