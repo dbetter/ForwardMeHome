@@ -20,6 +20,7 @@
         <item name="providerCellcom">Cellcom</item>
         <item name="providerPelephone">Pelephone</item>
         <item name="providerGolanTelecom">Golan Telecom</item>
+        <item name="providerHotMobile">HOT Mobile</item>
     </string-array>
 
     <string name="goBtn">Go!</string>

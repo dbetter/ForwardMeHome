@@ -2,6 +2,7 @@ package com.example.followmehome;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,9 +14,11 @@ import com.google.android.gms.maps.model.*;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -47,6 +50,11 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 	private static boolean cellNumberStatus = false;
 	private static boolean homeNumberStatus = false;
 	
+	
+	private final String userPrefrencesFileName = "userPrefrences";
+	private static boolean callBeenMadeApprochingHome = false;
+	private static boolean callBeenMadeLeavingHome = false;
+	
 	private enum NumberValidationType {
 		CELL,
 		HOME
@@ -57,7 +65,8 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		ORANGE,
 		PELEPHONE,
 		CELLCOM,
-		GOLAN
+		GOLAN,
+		HOTMOBILE
 	}
 	
 	private Provider provider;
@@ -109,6 +118,10 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 						break;
 					case "Golan Telecom":
 						provider = Provider.GOLAN;
+						break;
+					case "HOT Mobile":
+						provider = Provider.HOTMOBILE;
+						break;
 				}
 				Log.d(sout, "The item selected is: "+val);
 			}
@@ -200,7 +213,7 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		EditText numberEditText = (EditText)findViewById(R.id.homeNumberEditArea);
 		String number = numberEditText.getText().toString();
 		
-		if (number.length() != 10){
+		if (number.length() != 9){
 			return false;
 		} else if (number.charAt(0) != '0'){
 			return false;
@@ -279,9 +292,24 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		    	userHomeLocation.setLatitude(userPrefrencesLatLng.latitude);
 		    	userHomeLocation.setLongitude(userPrefrencesLatLng.longitude);
 		    	
-		    	if (userHomeLocation.distanceTo(location) < 40){
+		    	if ( (userHomeLocation.distanceTo(location) < 40) && (!callBeenMadeApprochingHome) ){
 		    		// Means the distance between our current-location and house-location is less then 40meters away
 		    		// that means we need to forward the calls from our cell -> home
+		    		callBeenMadeLeavingHome = false;
+		    		callBeenMadeApprochingHome = true;
+		    		
+		    		// Create a new ACTION_DIAL intent, initialize the number according to the relevant provider and fire away the intent
+		    		Intent forwardCellToHome = new Intent(Intent.ACTION_DIAL);
+		    		forwardCellToHome.setData(Uri.parse("tel:"+buildForwardingNumberCellToHome(homePhoneNumer)));
+		    		startActivity(forwardCellToHome);
+		    		
+		    	} else if ( (userHomeLocation.distanceTo(location) > 39) && (!callBeenMadeLeavingHome) ){
+		    		callBeenMadeLeavingHome = true;
+		    		callBeenMadeApprochingHome = false;
+		    		
+		    		Intent forwardCellToHome = new Intent(Intent.ACTION_DIAL);
+		    		forwardCellToHome.setData(Uri.parse("tel:"+buildCancelForwardingNumber()));
+		    		startActivity(forwardCellToHome);
 		    	}
 		    	
 		    }
@@ -295,6 +323,60 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 	    locationManager.requestLocationUpdates(locationProvider, 30000, 25, locationListener);	
 	}
 	
+	
+	private String buildCancelForwardingNumber(){
+		
+		String retval = null;
+		switch(provider){
+			case _012:
+				retval = "#21#";
+				break;
+			case GOLAN:
+				// Not support at this point
+				break;
+			case ORANGE:
+				retval = "#21#";
+				break;
+			case PELEPHONE:
+				// requires extra work - listening on the line and hanging up by the app is needed 
+				retval = "*730";
+				break;
+			case CELLCOM:
+				retval = "#21#";
+				break;
+			case HOTMOBILE:
+				// requires extra work - listening on the line and hanging up by the app is needed
+				retval = "#72";
+		}
+		return retval;
+	}
+	
+	private String buildForwardingNumberCellToHome(String baseNumber){
+		
+		String retval = null;
+		switch(provider){
+			case _012:
+				retval = "*21*"+baseNumber+"#";
+				break;
+			case GOLAN:
+				// Not support at this point
+				break;
+			case ORANGE:
+				retval = "*21*"+baseNumber+"#";
+				break;
+			case PELEPHONE:
+				// Needs extra work, need to wait 2-3 seconds and hang up
+				retval = "*73"+baseNumber;
+				break;
+			case CELLCOM:
+				retval = "*21*"+baseNumber+"#";
+				break;
+			case HOTMOBILE:
+				retval = "*21*"+baseNumber+"#";
+		}
+		return retval;
+	}
+	
 	public void updatePrefrences(View view){
 		
 		EditText cellNumEditText = (EditText)findViewById(R.id.cellPhoneNumberEditArea);
@@ -305,13 +387,13 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		String homeNumString = homeNumEditText.getText().toString();
 		homeNumString = homeNumString+"\n";
 
-		String lat = String.valueOf(globalLatLng.latitude);
+		String lat = String.valueOf(userPrefrencesLatLng.latitude);
 		lat = lat+"\n";
-		String longtitude = String.valueOf(globalLatLng.longitude);
+		String longtitude = String.valueOf(userPrefrencesLatLng.longitude);
 		longtitude = longtitude+"\n";
 
 		try{
-			FileOutputStream fos = openFileOutput("userPrefrences", Context.MODE_PRIVATE);
+			FileOutputStream fos = openFileOutput(userPrefrencesFileName, Context.MODE_PRIVATE);
 			
 			fos.write(lat.getBytes());
 			fos.write(longtitude.getBytes());
@@ -333,6 +415,10 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 					break;
 				case GOLAN:
 					fos.write("Golan".getBytes());
+					break;
+				case HOTMOBILE:
+					fos.write("HOT Mobile".getBytes());
+					break;
 			}
 			fos.close();
 		} catch (Exception e){
@@ -340,13 +426,6 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 			}
 	}
 		
-	
-	
-	private void updateValues(){
-		// to be implemented 
-	}
-
-
 	@Override
 	public void onLocationChanged(Location location) {
         String str = "Latitude: "+location.getLatitude()+" Longitude: "+location.getLongitude();
@@ -393,14 +472,20 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		 * Home num
 		 * provider
 		 */
-		try {
-		    BufferedReader inputReader = new BufferedReader(new InputStreamReader(openFileInput("userPrefrences")));		      		    
-		    handleGeoLocationRead(inputReader);
-		    handleCellPhoneRead(inputReader);
-		    handleHomePhoneRead(inputReader);    
-		    handleSpinnerLoad(inputReader);    
-		} catch (IOException e) {
-		    e.printStackTrace();
+		File file = getBaseContext().getFileStreamPath(userPrefrencesFileName);
+		if (file != null){ // Verify we have a file
+			Log.d(sout,"userPrefrences file is fine");
+			try {
+			    BufferedReader inputReader = new BufferedReader(new InputStreamReader(openFileInput("userPrefrences")));		      		    
+			    handleGeoLocationRead(inputReader);
+			    handleCellPhoneRead(inputReader);
+			    handleHomePhoneRead(inputReader);    
+			    handleSpinnerLoad(inputReader);    
+			} catch (IOException e) {
+			    e.printStackTrace();
+			}
+		} else{
+			Log.d(sout,"userPrefrences file does not exist");
 		}
 	}
 	
@@ -471,6 +556,10 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 			
 		case "Golan":
 			provider.setSelection(4);
+			break;
+			
+		case "HOT Mobile":
+			provider.setSelection(5);
 			break;
 		}
 	}
