@@ -1,8 +1,8 @@
-# Follow-Me-Home
+# Forward-Me-Home
 
-![Follow-Me-Home Image](http://image-store.slidesharecdn.com/973b2d54-cad7-4976-9d81-717d8dd09037-large.png)
+![Forward-Me-Home Image](http://image-store.slidesharecdn.com/973b2d54-cad7-4976-9d81-717d8dd09037-medium.png)
 
-Follow-Me-Home is a native android application.
+Forward-Me-Home is a native android application.
 The application is meant to solve the hassle of dealing with incoming calls to our mobile devices in areas without reception (primarily home) by forwarding calls from our mobile phone to our home phone, and doing so by analyzing our GPS location (so that when we're near home or reach home, the calls would automatically be forwarded to the home phone) and vice-verse.
 
 ## Installation
