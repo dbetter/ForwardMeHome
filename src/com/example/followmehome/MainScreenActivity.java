@@ -297,15 +297,13 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 		    		callBeenMadeApprochingHome = true;
 		    		
 		    		// Create a new ACTION_DIAL intent, initialize the number according to the relevant provider and fire away the intent
-		    		Intent forwardCellToHome = new Intent(Intent.ACTION_DIAL);
+		    		Intent forwardCellToHome = new Intent(Intent.ACTION_CALL);
 		    		forwardCellToHome.setData(Uri.parse("tel:"+buildForwardingNumberCellToHome(homePhoneNumer)));
 		    		startActivity(forwardCellToHome);
-		    		
 		    	} else if ( (userHomeLocation.distanceTo(location) > 39) && (!callBeenMadeLeavingHome) ){
 		    		callBeenMadeLeavingHome = true;
 		    		callBeenMadeApprochingHome = false;
-		    		
-		    		Intent forwardCellToHome = new Intent(Intent.ACTION_DIAL);
+		    		Intent forwardCellToHome = new Intent(Intent.ACTION_CALL);
 		    		forwardCellToHome.setData(Uri.parse("tel:"+buildCancelForwardingNumber()));
 		    		startActivity(forwardCellToHome);
 		    	}
@@ -534,30 +532,36 @@ public class MainScreenActivity extends Activity implements OnMapReadyCallback, 
 			e.printStackTrace();
 		}
 		
-		Spinner provider = (Spinner)findViewById(R.id.providerArraySpinner);
+		Spinner spinnerProvider = (Spinner)findViewById(R.id.providerArraySpinner);
 	    switch (value) {
 		case "Orange":
-			provider.setSelection(0);
+			spinnerProvider.setSelection(0);
+			provider = Provider.ORANGE;
 			break;
 
 		case "012":
-			provider.setSelection(1);
+			spinnerProvider.setSelection(1);
+			provider = Provider._012;
 			break;
 			
 		case "Cellcom":
-			provider.setSelection(2);
+			spinnerProvider.setSelection(2);
+			provider = Provider.CELLCOM;
 			break;
 			
 		case "Pelephone":
-			provider.setSelection(3);
+			spinnerProvider.setSelection(3);
+			provider = Provider.PELEPHONE;
 			break;
 			
 		case "Golan":
-			provider.setSelection(4);
+			spinnerProvider.setSelection(4);
+			provider = Provider.GOLAN;
 			break;
 			
 		case "HOT Mobile":
-			provider.setSelection(5);
+			spinnerProvider.setSelection(5);
+			provider = Provider.HOTMOBILE;
 			break;
 		}
 	}
